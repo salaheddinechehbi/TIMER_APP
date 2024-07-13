@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+#timer {
+    text-align: center;
+    font-size: 3em;
+    margin: 20px 0;
+}
+
+.controls, .presets, .message, .preset-messages {
+    margin-top: 20px;
+}
+
+.controls input {
+    padding: 5px;
+    font-size: 1em;
+}
+
+.controls button, .presets button, .message button, .preset-messages button {
+    padding: 8px 20px;
+    font-size: 1em;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.message textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.preset-messages select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+}
+
+.preset-messages button {
+    margin-top: 10px;
+}

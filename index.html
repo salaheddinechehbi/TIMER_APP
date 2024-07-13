@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Countdown Timer</h1>
+        <div id="timer">
+            <div id="timerControls">
+                <div id="timerDisplay">
+                    <span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button onclick="subtractMinute()">-</button>
+            <input type="number" id="inputMinutes" placeholder="Enter minutes">
+            <button onclick="addMinute()">+</button>
+            <button onclick="startTimer()">Start</button>
+            <button onclick="stopTimer()">Stop</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
+        <div class="presets">
+            <h2>Presets</h2>
+            <button onclick="setPreset(5)">5 minutes</button>
+            <button onclick="setPreset(10)">10 minutes</button>
+            <button onclick="setPreset(15)">15 minutes</button>
+            <!-- Add more preset buttons as needed -->
+        </div>
+        <div class="message">
+            <h2>Message for Speakers</h2>
+            <textarea id="messageInput" placeholder="Write your message"></textarea>
+            <button onclick="sendMessage()">Send Message</button>
+        </div>
+        <div class="preset-messages">
+            <h2>Preset Messages</h2>
+            <select id="presetMessages">
+                <option value="">Select a preset message</option>
+                <option value="Welcome to the event!">Welcome to the event!</option>
+                <option value="Please be ready for your presentation.">Please be ready for your presentation.</option>
+                <option value="We are starting in 5 minutes.">We are starting in 5 minutes.</option>
+                <!-- Add more preset messages as needed -->
+            </select>
+            <button onclick="sendPresetMessage()">Send Preset Message</button>
+        </div>
+
+        <div id="fontSizeControls">
+            <label for="fontSize">Font Size:</label>
+            <input type="range" id="fontSize" name="fontSize" min="10" max="500" value="200" oninput="updateFontSize(this.value)">
+            <span id="fontSizeValue">500</span>
+        </div>
+        <div class="control-group">
+            <label for="fontType">Font Type:</label>
+            <select id="fontType" onchange="updateFontType(this.value)">
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Verdana">Verdana</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="fontWeight">Font Weight:</label>
+            <select id="fontWeight" onchange="updateFontWeight(this.value)">
+                <option value="normal">Normal</option>
+                <option value="bold">Bold</option>
+                <option value="bolder">Bolder</option>
+                <option value="lighter">Lighter</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="fontColor">Font Color:</label>
+            <input type="color" id="fontColor" onchange="updateFontColor(this.value)">
+        </div>
+        <button onclick="saveSettings()">Save Settings</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
