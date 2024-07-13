@@ -218,7 +218,7 @@ function openCountdownWindow() {
                         background-color: #000;
                         color: #333;
                     }
-                    #timerDisplayMonitor {
+                    #timerDisplay {
                         font-size: ${fontSize}px;
                         margin-bottom: 20px;
                     }
@@ -230,11 +230,10 @@ function openCountdownWindow() {
                 </style>
             </head>
             <body>
-                <div id="timerDisplayMonitor">
+                <div id="timerDisplay">
                     <span id="minutes">00</span>:<span id="seconds">00</span>
                 </div>
                 <div id="speakerMessage"></div>
-                <script src="settings.js"></script>
             </body>
             </html>
         `);
@@ -247,8 +246,7 @@ function openCountdownWindow() {
 function updateFontSize(size) {
     document.getElementById('fontSizeValue').textContent = size;
     if (countdownWindow && !countdownWindow.closed) {
-        countdownWindow.document.getElementById('timerDisplayMonitor').style.fontSize = `${size}px`;
-        saveSettings();
+        countdownWindow.document.getElementById('timerDisplay').style.fontSize = `${size}px`;
     }
 }
 
@@ -256,7 +254,6 @@ function updateFontSize(size) {
 function updateFontType(type) {
     if (countdownWindow && !countdownWindow.closed) {
         countdownWindow.document.body.style.fontFamily = type;
-        saveSettings();
     }
 }
 
@@ -264,7 +261,6 @@ function updateFontType(type) {
 function updateFontWeight(weight) {
     if (countdownWindow && !countdownWindow.closed) {
         countdownWindow.document.body.style.fontWeight = weight;
-        saveSettings();
     }
 }
 
@@ -272,7 +268,6 @@ function updateFontWeight(weight) {
 function updateFontColor(color) {
     if (countdownWindow && !countdownWindow.closed) {
         countdownWindow.document.body.style.color = color;
-        saveSettings();
     }
 }
 
@@ -286,67 +281,3 @@ function displayMessageInCountdownWindow(message) {
         messageElement.style.display = 'none';
     }, 10000); // 10 seconds
 }
-
-
-
-
-
-
-
-
-// Save settings to localStorage
-function saveSettings() {
-    const fontSize = document.getElementById('fontSize').value;
-    const fontType = document.getElementById('fontType').value;
-    const fontWeight = document.getElementById('fontWeight').value;
-    const fontColor = document.getElementById('fontColor').value;
-
-    const settings = {
-        fontSize,
-        fontType,
-        fontWeight,
-        fontColor
-    };
-
-    localStorage.setItem('timerSettings', JSON.stringify(settings));
-    applySettings();
-}
-
-// Load and apply settings from localStorage
-function loadSettings() {
-    const savedSettings = localStorage.getItem('timerSettings');
-    if (savedSettings) {
-        const settings = JSON.parse(savedSettings);
-        document.getElementById('fontSize').value = settings.fontSize;
-        document.getElementById('fontType').value = settings.fontType;
-        document.getElementById('fontWeight').value = settings.fontWeight;
-        document.getElementById('fontColor').value = settings.fontColor;
-
-        applySettings();
-    }
-}
-
-// Apply settings to the timer display
-function applySettings() {
-    
-    if (countdownWindow && !countdownWindow.closed) {
-        
-        const fontSize = document.getElementById('fontSize').value;
-        const fontType = document.getElementById('fontType').value;
-        const fontWeight = document.getElementById('fontWeight').value;
-        const fontColor = document.getElementById('fontColor').value;
-
-        const timerDisplay = countdownWindow.document.getElementById('timerDisplayMonitor');
-
-        if (fontSize) timerDisplay.style.fontSize = `${fontSize}px`;
-        if (fontType) timerDisplay.style.fontFamily = fontType;
-        if (fontWeight) timerDisplay.style.fontWeight = fontWeight;
-        if (fontColor) timerDisplay.style.color = fontColor;
-    }
-}
-
-// Example: Start countdown on page load
-window.onload = function() {
-    loadSettings();
-    //startCountdown();
-};
