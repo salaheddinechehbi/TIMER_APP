@@ -41,14 +41,16 @@
         </div>
         <div class="preset-messages">
             <h2>Preset Messages</h2>
-            <select id="presetMessages">
+            <select id="presetMessages" onclick="setPresetMessageToMessage()">
                 <option value="">Select a preset message</option>
                 <option value="Welcome to the event!">Welcome to the event!</option>
                 <option value="Please be ready for your presentation.">Please be ready for your presentation.</option>
                 <option value="We are starting in 5 minutes.">We are starting in 5 minutes.</option>
+                <option value="Time's up!">Time's up!</option>
+                <option value="Next Session.">Next Session.</option>
+                <option value="Break Time.">Break Time.</option>
                 <!-- Add more preset messages as needed -->
             </select>
-            <button onclick="sendPresetMessage()">Send Preset Message</button>
         </div>
 
         <div id="fontSizeControls">
