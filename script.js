@@ -12,13 +12,6 @@ let isPaused = false;
 let messageWindow;
 let countdownWindow;
 
-// Preset messages object
-const presets = {
-    "Break Time": "Break Time",
-    "Next Session": "Next Session",
-    "Time's Up!": "Time's Up!"
-};
-
 // Function to start or resume the timer
 function startTimer() {
     let time = inputMinutes.value * 60;
@@ -127,20 +120,10 @@ function sendMessage() {
     }
 }
 
-// Function to send a preset message to the speaker
-function sendPresetMessage() {
+// Function to send a preset message to the message input
+function setPresetMessageToMessage() {
     const selectedPreset = presetMessages.value;
-    if (!selectedPreset) {
-        alert("Please select a preset message.");
-        return;
-    }
-
-    const message = presets[selectedPreset];
-    if (countdownWindow && !countdownWindow.closed) {
-        displayMessageInCountdownWindow(message);
-    } else {
-        sendMessageToWindow(message);
-    }
+    messageInput.value = selectedPreset;
 }
 
 // Function to send message to speaker window
@@ -165,11 +148,11 @@ function sendMessageToWindow(message) {
                             font-family: Arial, sans-serif;
                             text-align: center;
                             padding: 20px;
-                            background-color: #fff;
-                            color: #333;
+                            background-color: #000;
+                            color: #fff;
                         }
                         h1 {
-                            color: #333;
+                            color: #fff;
                         }
                         p {
                             font-size: 1.2em;
@@ -281,6 +264,7 @@ function displayMessageInCountdownWindow(message) {
     const messageElement = countdownWindow.document.getElementById('speakerMessage');
     messageElement.textContent = message;
     messageElement.style.display = 'block';
+    messageElement.style.color = 'yellow';
 
     setTimeout(() => {
         messageElement.style.display = 'none';
