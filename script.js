@@ -11,6 +11,9 @@ let startTime = 0;
 let isPaused = false;
 let messageWindow;
 let countdownWindow;
+let isDragging = false;
+let startX, startY, initialX, initialY;
+let countUpMode = false;
 
 // Function to start or resume the timer
 function startTimer() {
@@ -49,12 +52,15 @@ function updateTimer() {
         countdownWindow.document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
         countdownWindow.document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
     }
-
-    if (remainingTime > 0) {
-        remainingTime--;
+    if (countUpMode) {
+        remainingTime++;
     } else {
-        clearInterval(countdown);
-        alert("Time's up!");
+        if (remainingTime > 0) {
+            remainingTime--;
+        } else {
+            clearInterval(countdown);
+            alert("Time's up!");
+        }
     }
 }
 
@@ -103,6 +109,61 @@ function setPreset(preset) {
     }
 
     inputMinutes.value = preset;
+}
+
+// Function to open a new window with the countdown timer and message
+function openCountdownWindow() {
+    countdownWindow = window.open('', '_blank', 'fullscreen=yes');
+    if (countdownWindow) {
+        const fontSize = document.getElementById('fontSize').value;
+        const fontType = document.getElementById('fontType').value;
+        const fontWeight = document.getElementById('fontWeight').value;
+        const fontColor = document.getElementById('fontColor').value;
+
+        countdownWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Countdown Timer</title>
+                <style>
+                    body {
+                        font-family: ${fontType}, sans-serif;
+                        font-weight: ${fontWeight};
+                        color: ${fontColor};
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                        background-color: #000;
+                        color: #333;
+                    }
+                    #timerDisplayMonitor {
+                        font-size: ${fontSize}px;
+                        margin-bottom: 20px;
+                    }
+                    #speakerMessage {
+                        font-size: 2em;
+                        text-align: center;
+                        margin: 20px 0;
+                    }
+                </style>
+            </head>
+            <body>
+                <div id="timerDisplayMonitor">
+                    <span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+                <div id="speakerMessage"></div>
+                <script src="settings.js"></script>
+            </body>
+            </html>
+        `);
+    } else {
+        alert("Failed to open new window. Please allow pop-ups for this site.");
+    }
 }
 
 // Function to send a message to the speaker
@@ -171,60 +232,32 @@ function sendMessageToWindow(message) {
     }
 }
 
-// Function to open a new window with the countdown timer and message
-function openCountdownWindow() {
-    countdownWindow = window.open('', '_blank', 'fullscreen=yes');
-    if (countdownWindow) {
-        const fontSize = document.getElementById('fontSize').value;
-        const fontType = document.getElementById('fontType').value;
-        const fontWeight = document.getElementById('fontWeight').value;
-        const fontColor = document.getElementById('fontColor').value;
+// Function to display message in the countdown window for 10 seconds
+function displayMessageInCountdownWindow(message) {
+    const messageElement = countdownWindow.document.getElementById('speakerMessage');
+    messageElement.textContent = message;
+    messageElement.style.display = 'block';
+    messageElement.style.color = 'yellow';
 
-        countdownWindow.document.write(`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Countdown Timer</title>
-                <style>
-                    body {
-                        font-family: ${fontType}, sans-serif;
-                        font-weight: ${fontWeight};
-                        color: ${fontColor};
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        margin: 0;
-                        background-color: #000;
-                        color: #333;
-                    }
-                    #timerDisplayMonitor {
-                        font-size: ${fontSize}px;
-                        margin-bottom: 20px;
-                    }
-                    #speakerMessage {
-                        font-size: 2em;
-                        text-align: center;
-                        margin: 20px 0;
-                    }
-                </style>
-            </head>
-            <body>
-                <div id="timerDisplayMonitor">
-                    <span id="minutes">00</span>:<span id="seconds">00</span>
-                </div>
-                <div id="speakerMessage"></div>
-                <script src="settings.js"></script>
-            </body>
-            </html>
-        `);
-    } else {
-        alert("Failed to open new window. Please allow pop-ups for this site.");
-    }
+    setTimeout(() => {
+        messageElement.style.display = 'none';
+    }, 10000); // 10 seconds
 }
+
+
+
+
+
+function toggleMode() {
+    countUpMode = !countUpMode;
+    const button = document.getElementById('toggleModeButton');
+    button.textContent = countUpMode ? "Switch to Count Down" : "Switch to Count Up";
+}
+
+
+
+
+
 
 // Function to update font size
 function updateFontSize(size) {
@@ -258,25 +291,6 @@ function updateFontColor(color) {
         saveSettings();
     }
 }
-
-// Function to display message in the countdown window for 10 seconds
-function displayMessageInCountdownWindow(message) {
-    const messageElement = countdownWindow.document.getElementById('speakerMessage');
-    messageElement.textContent = message;
-    messageElement.style.display = 'block';
-    messageElement.style.color = 'yellow';
-
-    setTimeout(() => {
-        messageElement.style.display = 'none';
-    }, 10000); // 10 seconds
-}
-
-
-
-
-
-
-
 
 // Save settings to localStorage
 function saveSettings() {
